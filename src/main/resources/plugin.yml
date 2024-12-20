@@ -1,0 +1,6 @@
+name: AkatQuest
+main: net.akat.quest.Main
+version: 1.0
+author: 2FORWORD2
+api-version: 1.21
+depend: [MythicMobs, Vault, NBTAPI]
