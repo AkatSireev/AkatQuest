@@ -10,8 +10,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
+import net.akat.quest.Main;
 import net.akat.quest.conditions.ConditionFactory;
 import net.akat.quest.models.Quest;
 import net.akat.quest.models.state.QuestState;
@@ -21,7 +21,7 @@ import net.akat.quest.rewards.interfaces.Reward;
 import net.milkbowl.vault.economy.Economy;
 
 public class QuestManager {
-    private final JavaPlugin plugin;
+    private final Main plugin;
     private final Map<String, Quest> quests = new HashMap<>();
     private File questsFile;
     private FileConfiguration questsConfig;
@@ -30,10 +30,10 @@ public class QuestManager {
     private final QuestStateManager stateManager;
     
 
-    public QuestManager(JavaPlugin plugin, Economy economy, QuestStateManager stateManager) {
+    public QuestManager(Main plugin, Economy economy, QuestStateManager stateManager) {
         this.plugin = plugin;
         this.rewardFactory = new RewardFactory(economy);
-        this.conditionFactory = new ConditionFactory();
+        this.conditionFactory = new ConditionFactory(plugin.getDependencyChecker());
         this.stateManager = stateManager;
         loadQuestFile();
         loadQuests();

@@ -12,6 +12,7 @@ import net.akat.quest.listeners.QuestEventListener;
 import net.akat.quest.managers.QuestManager;
 import net.akat.quest.managers.QuestStateManager;
 import net.akat.quest.models.Quest;
+import net.akat.quest.utils.DependencyChecker;
 import net.milkbowl.vault.economy.Economy;
 
 public class Main extends JavaPlugin {
@@ -20,22 +21,58 @@ public class Main extends JavaPlugin {
     private QuestStateManager questStateManager;
     private Economy economy;
     private List<Quest> allQuests;
+    private DependencyChecker dependencyChecker;
 
     @Override
     public void onEnable() {
-        if (!setupEconomy()) {
-            getLogger().warning("Vault не найден!");
-            getServer().getPluginManager().disablePlugin(this);
+        loadConfiguration();
+
+        if (!initializeEconomy()) {
             return;
         }
-        
-        questStateManager = new QuestStateManager(getDataFolder());
-        
-        questManager = new QuestManager(this, economy, questStateManager);
 
+        initializeDependencies();
+
+        initializeManagers();
+
+        registerEventListeners();
+    }
+
+    private void loadConfiguration() {
+        saveDefaultConfig();
+        getLogger().info("Конфигурация загружена.");
+    }
+
+    private boolean initializeEconomy() {
+        if (!setupEconomy()) {
+            getLogger().warning("Vault не найден! Плагин будет отключён.");
+            getServer().getPluginManager().disablePlugin(this);
+            return false;
+        }
+        getLogger().info("Vault успешно настроен.");
+        return true;
+    }
+
+    private void initializeDependencies() {
+        boolean isMythicMobsEnabled = getConfig().getBoolean("mythicmobs-enable", true);
+
+        dependencyChecker = new DependencyChecker(isMythicMobsEnabled);
+
+        if (!dependencyChecker.isMythicMobsAvailable()) {
+            getLogger().warning("MythicMobs функциональность отключена, так как плагин не найден.");
+        } else {
+            getLogger().info("MythicMobs функциональность включена и доступна.");
+        }
+    }
+
+    private void initializeManagers() {
+        questStateManager = new QuestStateManager(getDataFolder());
+        questManager = new QuestManager(this, economy, questStateManager);
         allQuests = new ArrayList<>(questManager.getQuests().values());
-        
-        getServer().getPluginManager().registerEvents(new QuestEventListener(allQuests, questStateManager), this);
+    }
+
+    private void registerEventListeners() {
+        getServer().getPluginManager().registerEvents(new QuestEventListener(allQuests, questStateManager, dependencyChecker), this);
         getServer().getPluginManager().registerEvents(new NPCClickListener(allQuests, questStateManager), this);
         getServer().getPluginManager().registerEvents(new QuestClickListener(questStateManager, questManager), this);
     }
@@ -59,5 +96,9 @@ public class Main extends JavaPlugin {
 
     public QuestStateManager getQuestStateManager() {
         return questStateManager;
+    }
+
+    public DependencyChecker getDependencyChecker() {
+        return dependencyChecker;
     }
 }

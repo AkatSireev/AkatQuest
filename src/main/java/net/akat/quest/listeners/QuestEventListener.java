@@ -18,15 +18,18 @@ import net.akat.quest.managers.QuestStateManager;
 import net.akat.quest.models.Quest;
 import net.akat.quest.models.state.QuestState;
 import net.akat.quest.rewards.interfaces.QuestCondition;
+import net.akat.quest.utils.DependencyChecker;
 
 public class QuestEventListener implements Listener {
 
     private final List<Quest> quests;
     private final QuestStateManager questStateManager;
+    private final DependencyChecker dependencyChecker;
 
-    public QuestEventListener(List<Quest> quests, QuestStateManager questStateManager) {
+    public QuestEventListener(List<Quest> quests, QuestStateManager questStateManager, DependencyChecker dependencyChecker) {
         this.quests = quests;
         this.questStateManager = questStateManager;
+        this.dependencyChecker = dependencyChecker;
     }
 
     @EventHandler
@@ -52,6 +55,10 @@ public class QuestEventListener implements Listener {
                         updateQuestProgress(player, mobCondition, quest.getId());
                     }
                 } else if (condition instanceof KillMythicMobCondition) {
+                	if (!dependencyChecker.isMythicMobsAvailable()) {
+                        continue;
+                    }
+                	
                     KillMythicMobCondition mythicMobCondition = (KillMythicMobCondition) condition;
 
                     Optional<MythicMob> mythicMob = MythicBukkit.inst().getMobManager().getMythicMob(mythicMobCondition.getMobName());

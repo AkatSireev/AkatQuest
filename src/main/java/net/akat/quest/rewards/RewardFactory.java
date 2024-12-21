@@ -87,7 +87,12 @@ public class RewardFactory {
                 String name = itemSection.getString("name", null);
                 List<String> description = itemSection.getStringList("description");
 
-                Map<String, Object> nbtTags = parseNBTSection(itemSection.getConfigurationSection("tags"));
+                Map<String, Object> nbtTags = null;
+
+                ConfigurationSection tagsSection = itemSection.getConfigurationSection("tags");
+                if (tagsSection != null) {
+                	nbtTags = parseNBTSection(tagsSection);
+                }
 
                 return new ItemReward(material, amount, name, description, nbtTags);
             } else {

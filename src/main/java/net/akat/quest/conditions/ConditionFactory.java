@@ -11,8 +11,15 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 
 import net.akat.quest.rewards.interfaces.QuestCondition;
+import net.akat.quest.utils.DependencyChecker;
 
 public class ConditionFactory {
+	
+	private final DependencyChecker dependencyChecker;
+
+    public ConditionFactory(DependencyChecker dependencyChecker) {
+        this.dependencyChecker = dependencyChecker;
+    }
 
     public List<QuestCondition> createConditions(ConfigurationSection section) {
         List<QuestCondition> conditions = new ArrayList<>();
@@ -50,7 +57,12 @@ public class ConditionFactory {
                 return createKillRegularMobCondition(conditionSection);
 
             case "kill_mythic_mob":
-                return createKillMythicMobCondition(conditionSection);
+                if (dependencyChecker.isMythicMobsAvailable()) {
+                    return createKillMythicMobCondition(conditionSection);
+                } else {
+                    Bukkit.getLogger().warning("MythicMobs недоступен, условие 'kill_mythic_mob' будет пропущено.");
+                    return null;
+                }
 
             case "bring_item_with_nbt":
                 return createBringItemWithNBTCondition(conditionSection);
@@ -78,17 +90,16 @@ public class ConditionFactory {
         int amount = conditionSection.getInt("amount", 1);
         boolean take = conditionSection.getBoolean("take", false);
 
-        ConfigurationSection tagsSection = conditionSection.getConfigurationSection("tags");
         Map<String, Object> tags = null;
-
+        ConfigurationSection tagsSection = conditionSection.getConfigurationSection("tags");
         if (tagsSection != null) {
-            tags = parseNBTSection(tagsSection);
+        	tags = parseNBTSection(tagsSection);
         }
 
         if (material != null) {
             return new ItemNBTCondition(material, amount, take, tags);
         } else {
-            Bukkit.getLogger().warning("Некоторые данные для условия");
+            Bukkit.getLogger().warning("Некорректные данные для условия 'bring_item_with_nbt'.");
             return null;
         }
     }
