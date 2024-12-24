@@ -3,10 +3,10 @@ package net.akat.quest.models.state;
 import org.bukkit.Material;
 
 public enum QuestState {
-    UNAVAILABLE(Material.BOOK, "Недоступен", false, "§c"),
-    AVAILABLE(Material.WRITABLE_BOOK, "Доступен", false, "§a"),
-    IN_PROGRESS(Material.WRITABLE_BOOK, "Выполняется", true, "§e"),
-    COMPLETED(Material.BOOK, "Выполнен", true, "§b");
+    UNAVAILABLE(Material.BOOK, "РќРµРґРѕСЃС‚СѓРїРЅРѕ", false, "В§c"),
+    AVAILABLE(Material.WRITABLE_BOOK, "Р”РѕСЃС‚СѓРїРµРЅ", false, "В§a"),
+    IN_PROGRESS(Material.WRITABLE_BOOK, "Р’ РїСЂРѕС†РµСЃСЃРµ", true, "В§e"),
+    COMPLETED(Material.BOOK, "Р—Р°РІРµСЂС€РµРЅРѕ", true, "В§b");
 
     private final Material material;
     private final String displayName;

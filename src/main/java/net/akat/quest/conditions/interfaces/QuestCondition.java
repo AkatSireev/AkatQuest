@@ -1,4 +1,4 @@
-package net.akat.quest.rewards.interfaces;
+package net.akat.quest.conditions.interfaces;
 
 import org.bukkit.entity.Player;
 

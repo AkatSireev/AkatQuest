@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
-import net.akat.quest.rewards.interfaces.QuestCondition;
+import net.akat.quest.conditions.interfaces.QuestCondition;
 
 public class ItemNBTCondition implements QuestCondition {
     private final Material material;
@@ -41,7 +41,7 @@ public class ItemNBTCondition implements QuestCondition {
         return false;
     }
 
-    // Подсчет количества предметов у игрока
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     private int countItems(Player player) {
         int itemCount = 0;
 
@@ -54,7 +54,7 @@ public class ItemNBTCondition implements QuestCondition {
         return itemCount;
     }
 
-    // Получение количества предметов, учитывая NBT
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ NBT
     @SuppressWarnings("deprecation")
 	private int getItemAmount(ItemStack item) {
         int itemAmount = 0;
@@ -71,7 +71,7 @@ public class ItemNBTCondition implements QuestCondition {
         return itemAmount;
     }
 
-    // Удаление предметов из инвентаря
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     @SuppressWarnings("deprecation")
 	private void removeItems(Player player, int amountToRemove) {
         int remainingAmount = amountToRemove;
@@ -95,7 +95,7 @@ public class ItemNBTCondition implements QuestCondition {
         }
     }
 
-    // Проверка совпадения NBT тегов
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ NBT пїЅпїЅпїЅпїЅпїЅ
     @SuppressWarnings("unchecked")
 	private boolean matchesNBT(NBTItem nbtItem) {
         if (tags == null || tags.isEmpty()) {
@@ -122,7 +122,7 @@ public class ItemNBTCondition implements QuestCondition {
         return true;
     }
 
-    // Рекурсивная проверка вложенных тегов
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     private boolean matchesTag(NBTCompound compound, Map<String, Object> expectedTags) {
         for (Map.Entry<String, Object> expectedTag : expectedTags.entrySet()) {
             String tagName = expectedTag.getKey();
@@ -138,6 +138,6 @@ public class ItemNBTCondition implements QuestCondition {
 
     @Override
     public String getDescription() {
-        return "Принести x" + amount + ": " + material;
+        return "РљРѕР»РёС‡РµСЃС‚РІРѕ x" + amount + ": " + material;
     }
 }

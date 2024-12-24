@@ -21,6 +21,6 @@ public class MoneyReward implements Reward {
 
     @Override
     public String getRewardMessage() {
-        return "§7Δενόγθ: §e" + amount + " §7νετςει";
+        return "Β§7Π”ΠµΠ½ΡΠ³ΠΈ: Β§e" + amount + " Β§7ΠΌΠΎΠ½ΠµΡ‚";
     }
 }

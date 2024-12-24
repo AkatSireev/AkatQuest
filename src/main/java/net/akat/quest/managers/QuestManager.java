@@ -16,7 +16,7 @@ import net.akat.quest.conditions.ConditionFactory;
 import net.akat.quest.models.Quest;
 import net.akat.quest.models.state.QuestState;
 import net.akat.quest.rewards.RewardFactory;
-import net.akat.quest.rewards.interfaces.QuestCondition;
+import net.akat.quest.conditions.interfaces.QuestCondition;
 import net.akat.quest.rewards.interfaces.Reward;
 import net.milkbowl.vault.economy.Economy;
 
@@ -43,9 +43,9 @@ public class QuestManager {
         questsFile = new File(plugin.getDataFolder(), "quests.yml");
         if (!questsFile.exists()) {
             plugin.saveResource("quests.yml", false);
-            plugin.getLogger().info("Файл quests.yml не найден. Копирование из ресурса...");
+            plugin.getLogger().info("Р¤Р°Р№Р» quests.yml РЅРµ РЅР°Р№РґРµРЅ. РЎРѕР·РґР°СЋ РЅРѕРІС‹Р№...");
         } else {
-            plugin.getLogger().info("Файл quests.yml найден.");
+            plugin.getLogger().info("Р¤Р°Р№Р» quests.yml РЅР°Р№РґРµРЅ.");
         }
         questsConfig = YamlConfiguration.loadConfiguration(questsFile);
     }
@@ -55,7 +55,7 @@ public class QuestManager {
 
         ConfigurationSection questsSection = questsConfig.getConfigurationSection("quests");
         if (questsSection == null) {
-            plugin.getLogger().warning("Не удалось найти раздел 'quests' в quests.yml.");
+            plugin.getLogger().warning("РќРµ РЅР°Р№РґРµРЅ СЂР°Р·РґРµР» 'quests' РІ quests.yml.");
             return;
         }
 
@@ -66,14 +66,14 @@ public class QuestManager {
             }
         });
 
-        plugin.getLogger().info("Загружено квестов: " + quests.size());
+        plugin.getLogger().info("Р—Р°РіСЂСѓР¶РµРЅРѕ РєРІРµСЃС‚РѕРІ: " + quests.size());
     }
 
     private Quest loadQuest(String key) {
         String path = "quests." + key + ".";
-        String name = questsConfig.getString(path + "name", "Неизвестное имя");
-        String description = questsConfig.getString(path + "description", "Описание не указано");
-        String npcName = questsConfig.getString(path + "npcName", "Неизвестный NPC");
+        String name = questsConfig.getString(path + "name", "Р‘РµР·С‹РјСЏРЅРЅС‹Р№ РєРІРµСЃС‚");
+        String description = questsConfig.getString(path + "description", "РћРїРёСЃР°РЅРёРµ РЅРµ Р·Р°РґР°РЅРѕ");
+        String npcName = questsConfig.getString(path + "npcName", "Р‘РµР·С‹РјСЏРЅРЅС‹Р№ NPC");
         boolean linear = questsConfig.getBoolean(path + "linear", false);
         String depends = questsConfig.getString(path + "depends", null);
 
@@ -83,14 +83,14 @@ public class QuestManager {
         ConfigurationSection conditionsSection = questsConfig.getConfigurationSection(path + "conditions");
         List<QuestCondition> conditions = loadConditions(conditionsSection);
 
-        if (name.equals("Неизвестное имя")) {
-            plugin.getLogger().warning("Квест " + key + " не имеет имени!");
+        if (name.equals("Р‘РµР·С‹РјСЏРЅРЅС‹Р№ РєРІРµСЃС‚")) {
+            plugin.getLogger().warning("РљРІРµСЃС‚ " + key + " РЅРµ РёРјРµРµС‚ РЅР°Р·РІР°РЅРёСЏ!");
             return null;
         }
 
         return new Quest(key, name, description, npcName, linear, rewards, conditions, depends);
     }
-    
+
     public boolean isDependencyCompleted(Player player, Quest quest) {
         String depends = quest.getDepends();
         if (depends == null || depends.isEmpty()) {
@@ -99,14 +99,14 @@ public class QuestManager {
 
         Quest dependentQuest = getQuestById(depends);
         if (dependentQuest == null) {
-            plugin.getLogger().warning("Квест " + quest.getId() + " зависит от несуществующего квеста " + depends);
+            plugin.getLogger().warning("РљРІРµСЃС‚ " + quest.getId() + " СЃСЃС‹Р»Р°РµС‚СЃСЏ РЅР° РЅРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ РєРІРµСЃС‚ " + depends);
             return false;
         }
 
         QuestState dependentState = stateManager.loadQuestState(player, depends);
         return dependentState == QuestState.COMPLETED;
     }
-    
+
     private List<QuestCondition> loadConditions(ConfigurationSection conditionsSection) {
         return conditionFactory.createConditions(conditionsSection);
     }
@@ -117,7 +117,7 @@ public class QuestManager {
         if (rewardsSection != null) {
             rewards = rewardFactory.createRewards(rewardsSection);
         } else {
-            plugin.getLogger().warning("Для квеста не найдены награды!");
+            plugin.getLogger().warning("Р”Р»СЏ РєРІРµСЃС‚Р° РЅРµС‚ СѓРєР°Р·Р°РЅРЅС‹С… РЅР°РіСЂР°Рґ!");
         }
 
         return rewards;

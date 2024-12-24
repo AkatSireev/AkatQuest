@@ -1,11 +1,14 @@
 package net.akat.quest.conditions;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import org.bukkit.entity.Player;
 
+import io.lumine.mythic.api.mobs.MythicMob;
+import io.lumine.mythic.bukkit.MythicBukkit;
 import net.akat.quest.managers.QuestStateManager;
-import net.akat.quest.rewards.interfaces.QuestCondition;
+import net.akat.quest.conditions.interfaces.QuestCondition;
 
 public class KillMythicMobCondition implements QuestCondition {
 
@@ -33,7 +36,8 @@ public class KillMythicMobCondition implements QuestCondition {
 
     @Override
     public String getDescription() {
-        return "Убейте " + amount + " мобов с именем " + mobName;
+    	String customMobName = getCustomMobName();
+        return "РЈР±РёС‚СЊ " + amount + " РјРѕР±РѕРІ СЃ РёРјРµРЅРµРј " + customMobName;
     }
 
     public int getKilledMythicMobsCount(Player player, String questId) {
@@ -49,5 +53,14 @@ public class KillMythicMobCondition implements QuestCondition {
 
         progress.put(mobName, killedMobs);
         stateManager.saveQuestProgress(player, questId, progress);
+    }
+    
+    public String getCustomMobName() {
+        Optional<MythicMob> optionalMob = MythicBukkit.inst().getMobManager().getMythicMob(mobName);
+        if (optionalMob.isPresent()) {
+            MythicMob mob = optionalMob.get();
+            return mob.getDisplayName().toString();
+        }
+        return mobName;
     }
 }

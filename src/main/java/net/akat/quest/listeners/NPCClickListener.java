@@ -42,16 +42,16 @@ public class NPCClickListener implements Listener {
 
         String npcName = getNpcName(event.getRightClicked());
         if (npcName == null) {
-            player.sendMessage("§cУ этого NPC нет имени.");
+            player.sendMessage("В§cР­С‚РѕС‚ NPC РЅРµ РёРјРµРµС‚ РёРјРµРЅРё.");
             return;
         }
 
         String npcNameWithoutColor = ChatColor.stripColor(npcName);
 
-        // Список доступных квестов для этого NPC
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ NPC
         List<Quest> npcQuests = getQuestsForNpc(player, npcNameWithoutColor);
         if (npcQuests.isEmpty()) {
-            player.sendMessage("§cУ этого NPC нет доступных квестов.");
+            player.sendMessage("В§cР­С‚РѕС‚ NPC РЅРµ РїСЂРµРґР»Р°РіР°РµС‚ РєРІРµСЃС‚С‹.");
             return;
         }
 

@@ -6,7 +6,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import net.akat.quest.managers.QuestStateManager;
-import net.akat.quest.rewards.interfaces.QuestCondition;
+import net.akat.quest.conditions.interfaces.QuestCondition;
 
 public class KillMobCondition implements QuestCondition {
 
@@ -34,7 +34,7 @@ public class KillMobCondition implements QuestCondition {
 
     @Override
     public String getDescription() {
-        return "Убейте " + amount + " мобов типа " + mobType.name();
+        return "РЈР±РёС‚СЊ " + amount + " РјРѕР±РѕРІ С‚РёРїР° " + mobType.name();
     }
 
     public int getKilledMobsCount(Player player, String questId) {

@@ -46,7 +46,7 @@ public class QuestClickListener implements Listener {
 
     @SuppressWarnings("deprecation")
     private boolean isQuestMenu(InventoryClickEvent event) {
-        return event.getView().getTitle().equals("Êâåñòû NPC");
+        return event.getView().getTitle().equals("ÐšÐ²ÐµÑÑ‚Ñ‹ NPC");
     }
 
     private boolean isValidItem(ItemStack item) {
@@ -57,36 +57,36 @@ public class QuestClickListener implements Listener {
         String questId = getQuestIdFromItem(clickedItem);
 
         if (questId == null) {
-            player.sendMessage("§cÎøèáêà: íå óäàëîñü îïðåäåëèòü ID êâåñòà.");
+            player.sendMessage("Â§cÐžÑˆÐ¸Ð±ÐºÐ°: ÐÐµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð½Ð°Ð¹Ñ‚Ð¸ ID ÐºÐ²ÐµÑÑ‚Ð°.");
             return;
         }
 
         Quest quest = questManager.getQuestById(questId);
         if (quest == null) {
-            player.sendMessage("§cÎøèáêà: íå íàéäåí êâåñò ñ ID " + questId);
+            player.sendMessage("Â§cÐžÑˆÐ¸Ð±ÐºÐ°: ÐÐµ Ð½Ð°Ð¹Ð´ÐµÐ½ ÐºÐ²ÐµÑÑ‚ Ñ ID " + questId);
             return;
         }
 
         QuestState currentState = getQuestState(player, quest);
 
         if (currentState == QuestState.UNAVAILABLE) {
-            player.sendMessage("§cÄëÿ âûïîëíåíèÿ ýòîãî êâåñòà âàì íóæíî âûïîëíèòü ïðåäûäóùèå.");
+            player.sendMessage("Â§cÐ­Ñ‚Ð¾Ñ‚ ÐºÐ²ÐµÑÑ‚ ÐµÑ‰Ñ‘ Ð½Ðµ Ð´Ð¾ÑÑ‚ÑƒÐ¿ÐµÐ½.");
             return;
         }
 
         if (currentState == QuestState.COMPLETED) {
-            player.sendMessage("§cÝòîò êâåñò óæå âûïîëíåí.");
+            player.sendMessage("Â§cÐ­Ñ‚Ð¾Ñ‚ ÐºÐ²ÐµÑÑ‚ ÑƒÐ¶Ðµ Ð·Ð°Ð²ÐµÑ€ÑˆÑ‘Ð½.");
             return;
         }
 
         if (currentState == QuestState.IN_PROGRESS) {
-        	if (!quest.isConditionsMet(player)) {
-                player.sendMessage("§cÂû íå âûïîëíèëè âñå óñëîâèÿ äëÿ çàâåðøåíèÿ êâåñòà.");
+            if (!quest.isConditionsMet(player)) {
+                player.sendMessage("Â§cÐ’Ñ‹ Ð½Ðµ Ð²Ñ‹Ð¿Ð¾Ð»Ð½Ð¸Ð»Ð¸ Ð²ÑÐµ ÑƒÑÐ»Ð¾Ð²Ð¸Ñ Ð´Ð»Ñ Ð·Ð°Ð²ÐµÑ€ÑˆÐµÐ½Ð¸Ñ ÑÑ‚Ð¾Ð³Ð¾ ÐºÐ²ÐµÑÑ‚Ð°.");
                 return;
             }
             quest.giveRewards(player);
         }
-        
+
         updateQuestState(player, quest);
 
         openUpdatedQuestMenu(player, quest);
@@ -96,8 +96,8 @@ public class QuestClickListener implements Listener {
     private String getQuestIdFromItem(ItemStack item) {
         if (item.hasItemMeta() && item.getItemMeta().hasLore()) {
             return item.getItemMeta().getLore().stream()
-                    .filter(line -> line.startsWith("§8ID: §8"))
-                    .map(line -> line.substring("§8ID: §8".length()))
+                    .filter(line -> line.startsWith("Â§8ID: Â§8"))
+                    .map(line -> line.substring("Â§8ID: Â§8".length()))
                     .findFirst()
                     .orElse(null);
         }

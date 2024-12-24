@@ -15,7 +15,7 @@ import net.akat.quest.models.Quest;
 import net.akat.quest.models.state.QuestState;
 import net.akat.quest.rewards.ItemReward;
 import net.akat.quest.rewards.MoneyReward;
-import net.akat.quest.rewards.interfaces.QuestCondition;
+import net.akat.quest.conditions.interfaces.QuestCondition;
 import net.akat.quest.rewards.interfaces.Reward;
 
 import net.md_5.bungee.api.ChatColor;
@@ -49,7 +49,7 @@ public class QuestGUI {
         try {
             return Integer.parseInt(id.replaceAll("\\D", ""));
         } catch (NumberFormatException e) {
-            Bukkit.getLogger().warning("Некорректный формат ID квеста: " + id);
+            Bukkit.getLogger().warning("РћС€РёР±РєР° РїСЂРё РёР·РІР»РµС‡РµРЅРёРё ID РєРІРµСЃС‚Р°: " + id);
             return 0;
         }
     }
@@ -77,7 +77,7 @@ public class QuestGUI {
     @SuppressWarnings("deprecation")
 	private Inventory createInventory() {
         int size = ((quests.size() / 9) + 1) * 9;
-        return Bukkit.createInventory(null, size, "Квесты NPC");
+        return Bukkit.createInventory(null, size, "РљРІРµСЃС‚С‹ NPC");
     }
 
     private void fillInventory(Player player, Inventory inventory) {
@@ -109,7 +109,7 @@ public class QuestGUI {
         ItemMeta meta = item.getItemMeta();
 
         if (meta != null) {
-            meta.setDisplayName("§a" + quest.getName());
+            meta.setDisplayName("В§a" + quest.getName());
             List<String> lore = buildLore(quest, questState);
             meta.setLore(lore);
 
@@ -128,18 +128,18 @@ public class QuestGUI {
         List<String> lore = new ArrayList<>();
 
         if (questState == QuestState.UNAVAILABLE) {
-            lore.add("§cВам нужно выполнить предыдущие квесты.");
+            lore.add("В§cР­С‚РѕС‚ РєРІРµСЃС‚ РїРѕРєР° РЅРµРґРѕСЃС‚СѓРїРµРЅ.");
         } else {
-            lore.add("§7Описание:");
+            lore.add("В§7РћРїРёСЃР°РЅРёРµ:");
             addQuestDescription(quest, lore);
             addQuestRewardsAndConditions(quest, questState, lore);
         }
-        
+
         lore.add("");
-        lore.add("§7Линейный: " + (quest.isLinear() ? "§aДа" : "§cНет"));
-        lore.add("§7Статус: " + questState.getDisplayName());
+        lore.add("В§7Р›РёРЅРµР№РЅС‹Р№: " + (quest.isLinear() ? "В§aР”Р°" : "В§cРќРµС‚"));
+        lore.add("В§7РЎС‚Р°С‚СѓСЃ: " + questState.getDisplayName());
         lore.add("");
-        lore.add("§8ID: §8" + quest.getId());
+        lore.add("В§8ID: В§8" + quest.getId());
 
         return lore;
     }
@@ -147,14 +147,14 @@ public class QuestGUI {
     private void addQuestDescription(Quest quest, List<String> lore) {
         String[] descriptionLines = quest.getDescription().split("\n");
         for (String line : descriptionLines) {
-            lore.add("§f" + line);
+            lore.add("В§f" + line);
         }
     }
 
     private void addQuestRewardsAndConditions(Quest quest, QuestState questState, List<String> lore) {
         if (questState == QuestState.IN_PROGRESS) {
             lore.add("");
-            lore.add("§7Награды:");
+            lore.add("В§7РќР°РіСЂР°РґС‹:");
 
             List<Reward> rewards = quest.getRewards();
             if (rewards != null && !rewards.isEmpty()) {
@@ -162,22 +162,22 @@ public class QuestGUI {
                     if (reward instanceof ItemReward) {
                         addItemRewardToLore((ItemReward) reward, lore);
                     } else if (reward instanceof MoneyReward) {
-                        lore.add("§f- " + ((MoneyReward) reward).getRewardMessage());
+                        lore.add("В§f- " + ((MoneyReward) reward).getRewardMessage());
                     }
                 }
             } else {
-                lore.add("§f- Нет наград");
+                lore.add("В§f- РќРµС‚ РЅР°РіСЂР°Рґ");
             }
 
             lore.add("");
-            lore.add("§7Условия выполнения:");
+            lore.add("В§7РЈСЃР»РѕРІРёСЏ РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ:");
             List<QuestCondition> conditions = quest.getConditions();
             if (conditions != null && !conditions.isEmpty()) {
                 for (QuestCondition condition : conditions) {
-                    lore.add("§f- " + condition.getDescription());
+                    lore.add("В§f- " + condition.getDescription());
                 }
             } else {
-                lore.add("§f- Нет условий");
+                lore.add("В§f- РќРµС‚ СѓСЃР»РѕРІРёР№");
             }
         }
     }
@@ -185,9 +185,9 @@ public class QuestGUI {
     private void addItemRewardToLore(ItemReward itemReward, List<String> lore) {
         String itemName = itemReward.getName();
         if (itemName != null && !itemName.isEmpty()) {
-            lore.add("§f- " + itemReward.getAmount() + "x " + ChatColor.translateAlternateColorCodes('&', itemName));
+            lore.add("В§f- " + itemReward.getAmount() + "x " + ChatColor.translateAlternateColorCodes('&', itemName));
         } else {
-            lore.add("§f- " + itemReward.getAmount() + "x " + itemReward.getMaterial().name());
+            lore.add("В§f- " + itemReward.getAmount() + "x " + itemReward.getMaterial().name());
         }
     }
 }

@@ -24,20 +24,20 @@ public class RewardFactory {
         List<Reward> rewards = new ArrayList<>();
 
         if (section == null) {
-            Bukkit.getLogger().warning("Конфигурация для наград не найдена!");
+            Bukkit.getLogger().warning("РќРµ РЅР°Р№РґРµРЅ СЂР°Р·РґРµР» СЃ РЅР°РіСЂР°РґР°РјРё РІ РєРѕРЅС„РёРіСѓСЂР°С†РёРё!");
             return rewards;
         }
 
         for (String key : section.getKeys(false)) {
             ConfigurationSection rewardSection = section.getConfigurationSection(key);
             if (rewardSection == null) {
-                Bukkit.getLogger().warning("Секция награды " + key + " некорректна.");
+                Bukkit.getLogger().warning("Р Р°Р·РґРµР» РЅР°РіСЂР°РґС‹ " + key + " РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚.");
                 continue;
             }
 
             String type = rewardSection.getString("type");
             if (type == null) {
-                Bukkit.getLogger().warning("У награды " + key + " не указан тип.");
+                Bukkit.getLogger().warning("Р’ РЅР°РіСЂР°РґРµ " + key + " РЅРµ СѓРєР°Р·Р°РЅ С‚РёРї.");
                 continue;
             }
 
@@ -48,7 +48,7 @@ public class RewardFactory {
         }
 
         if (rewards.isEmpty()) {
-            Bukkit.getLogger().warning("Для квеста не найдены награды!");
+            Bukkit.getLogger().warning("РќРµ Р±С‹Р»Рё СЃРѕР·РґР°РЅС‹ РЅР°РіСЂР°РґС‹!");
         }
 
         return rewards;
@@ -63,7 +63,7 @@ public class RewardFactory {
             case "money":
                 return createMoneyReward(rewardSection);
             default:
-                Bukkit.getLogger().warning("Неизвестный тип награды: " + type);
+                Bukkit.getLogger().warning("РќРµРёР·РІРµСЃС‚РЅС‹Р№ С‚РёРї РЅР°РіСЂР°РґС‹: " + type);
                 return null;
         }
     }
@@ -73,7 +73,7 @@ public class RewardFactory {
         if (command != null) {
             return new CommandReward(command);
         } else {
-            Bukkit.getLogger().warning("Команда не указана для награды 'command'");
+            Bukkit.getLogger().warning("РќР°РіСЂР°РґР° С‚РёРїР° 'command' РЅРµ СЃРѕРґРµСЂР¶РёС‚ РєРѕРјР°РЅРґС‹.");
             return null;
         }
     }
@@ -91,16 +91,16 @@ public class RewardFactory {
 
                 ConfigurationSection tagsSection = itemSection.getConfigurationSection("tags");
                 if (tagsSection != null) {
-                	nbtTags = parseNBTSection(tagsSection);
+                    nbtTags = parseNBTSection(tagsSection);
                 }
 
                 return new ItemReward(material, amount, name, description, nbtTags);
             } else {
-                Bukkit.getLogger().warning("Не удалось найти материал для награды 'item': " + materialName);
+                Bukkit.getLogger().warning("РќРµ СѓРґР°Р»РѕСЃСЊ РЅР°Р№С‚Рё РјР°С‚РµСЂРёР°Р» РґР»СЏ РЅР°РіСЂР°РґС‹ С‚РёРїР° 'item': " + materialName);
                 return null;
             }
         } else {
-            Bukkit.getLogger().warning("Материал не указан для награды 'item'");
+            Bukkit.getLogger().warning("РќР°РіСЂР°РґР° С‚РёРїР° 'item' РЅРµ СЃРѕРґРµСЂР¶РёС‚ РјР°С‚РµСЂРёР°Р»Р°.");
             return null;
         }
     }
@@ -110,11 +110,11 @@ public class RewardFactory {
         if (moneyAmount > 0) {
             return new MoneyReward(moneyAmount, economy);
         } else {
-            Bukkit.getLogger().warning("Сумма денег для награды 'money' указана неверно или не указана.");
+            Bukkit.getLogger().warning("РќР°РіСЂР°РґР° С‚РёРїР° 'money' РЅРµ СЃРѕРґРµСЂР¶РёС‚ РєРѕР»РёС‡РµСЃС‚РІР° РјРѕРЅРµС‚ РёР»Рё РѕРЅРѕ СЂР°РІРЅРѕ РЅСѓР»СЋ.");
             return null;
         }
     }
-    
+
     private Map<String, Object> parseNBTSection(ConfigurationSection section) {
         Map<String, Object> result = new HashMap<>();
 

@@ -79,7 +79,7 @@ public class ItemReward implements Reward {
         }
     }
 
-    // Метод для применения NBT тегов к предмету
+    // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ NBT пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     @SuppressWarnings("deprecation")
     private ItemStack applyNBTTags(ItemStack item) {
         if (nbtTags != null && !nbtTags.isEmpty()) {
@@ -114,7 +114,7 @@ public class ItemReward implements Reward {
     @Override
     public String getRewardMessage() {
         String displayName = getItemDisplayName();
-        return "§7" + amount + "x " + displayName;
+        return "В§7" + amount + "x " + displayName;
     }
 
     private String getItemDisplayName() {

@@ -24,18 +24,18 @@ public class QuestStateManager {
     private File initializePlayersFolder(File dataFolder) {
         File folder = new File(dataFolder, "players");
         if (!folder.exists() && folder.mkdirs()) {
-            System.out.println("Папка players была создана.");
+            System.out.println("РџР°РїРєР° players Р±С‹Р»Р° СЃРѕР·РґР°РЅР°.");
         }
         return folder;
     }
 
-    // Загрузка состояния квеста для игрока
+    // Р—Р°РіСЂСѓР·РєР° СЃРѕСЃС‚РѕСЏРЅРёСЏ РєРІРµСЃС‚Р° РґР»СЏ РёРіСЂРѕРєР°
     public QuestState loadQuestState(Player player, String questId) {
         FileConfiguration config = loadPlayerConfig(player);
         return getQuestStateFromConfig(config, questId);
     }
 
-    // Сохранение состояния квеста для игрока
+    // РЎРѕС…СЂР°РЅРµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ РєРІРµСЃС‚Р° РґР»СЏ РёРіСЂРѕРєР°
     public void saveQuestState(Player player, String questId, QuestState state) {
         File playerFile = getPlayerFile(player);
         FileConfiguration config = loadPlayerConfig(player);
@@ -44,13 +44,13 @@ public class QuestStateManager {
         savePlayerConfig(config, playerFile);
     }
 
-    // Загрузка прогресса условий для квеста
+    // Р—Р°РіСЂСѓР·РєР° РїСЂРѕРіСЂРµСЃСЃР° РїРѕ РєРІРµСЃС‚Сѓ РґР»СЏ РёРіСЂРѕРєР°
     public HashMap<String, Integer> loadQuestProgress(Player player, String questId) {
         FileConfiguration config = loadPlayerConfig(player);
         return getQuestProgressFromConfig(config, questId);
     }
 
-    // Сохранение прогресса условий для квеста
+    // РЎРѕС…СЂР°РЅРµРЅРёРµ РїСЂРѕРіСЂРµСЃСЃР° РїРѕ РєРІРµСЃС‚Сѓ РґР»СЏ РёРіСЂРѕРєР°
     public void saveQuestProgress(Player player, String questId, HashMap<String, Integer> progress) {
         File playerFile = getPlayerFile(player);
         FileConfiguration config = loadPlayerConfig(player);
@@ -59,7 +59,7 @@ public class QuestStateManager {
         savePlayerConfig(config, playerFile);
     }
 
-    // Обновление состояния следующего квеста, если текущий квест завершён
+    // РћР±РЅРѕРІР»РµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ СЃР»РµРґСѓСЋС‰РµРіРѕ РєРІРµСЃС‚Р°, РµСЃР»Рё РїСЂРµРґС‹РґСѓС‰РёР№ Р·Р°РІРµСЂС€С‘РЅ
     public void updateNextQuestState(Player player, List<Quest> quests) {
         for (int i = 0; i < quests.size() - 1; i++) {
             Quest currentQuest = quests.get(i);
@@ -74,7 +74,7 @@ public class QuestStateManager {
         }
     }
 
-    // Загрузка конфигурации игрока
+    // Р—Р°РіСЂСѓР·РєР° РєРѕРЅС„РёРіСѓСЂР°С†РёРё РёРіСЂРѕРєР°
     private FileConfiguration loadPlayerConfig(Player player) {
         File playerFile = getPlayerFile(player);
 
@@ -85,13 +85,13 @@ public class QuestStateManager {
         return YamlConfiguration.loadConfiguration(playerFile);
     }
 
-    // Получение состояния квеста из конфигурации
+    // РџРѕР»СѓС‡РµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ РєРІРµСЃС‚Р° РёР· РєРѕРЅС„РёРіСѓСЂР°С†РёРё
     private QuestState getQuestStateFromConfig(FileConfiguration config, String questId) {
         String state = config.getString("quests." + questId + ".state", "UNAVAILABLE");
         return QuestState.valueOf(state.toUpperCase());
     }
 
-    // Получение прогресса условий из конфигурации
+    // РџРѕР»СѓС‡РµРЅРёРµ РїСЂРѕРіСЂРµСЃСЃР° РїРѕ РєРІРµСЃС‚Сѓ РёР· РєРѕРЅС„РёРіСѓСЂР°С†РёРё
     private HashMap<String, Integer> getQuestProgressFromConfig(FileConfiguration config, String questId) {
         ConfigurationSection section = config.getConfigurationSection("quests." + questId + ".progress");
 
@@ -106,7 +106,7 @@ public class QuestStateManager {
         return progress;
     }
 
-    // Сохранение конфигурации игрока
+    // РЎРѕС…СЂР°РЅРµРЅРёРµ РєРѕРЅС„РёРіСѓСЂР°С†РёРё РёРіСЂРѕРєР°
     private void savePlayerConfig(FileConfiguration config, File playerFile) {
         try {
             config.save(playerFile);
@@ -115,13 +115,13 @@ public class QuestStateManager {
         }
     }
 
-    // Получение файла игрока
+    // РџРѕР»СѓС‡РµРЅРёРµ С„Р°Р№Р»Р° РёРіСЂРѕРєР°
     private File getPlayerFile(Player player) {
         String playerName = player.getName();
         return new File(playersFolder, playerName + ".yml");
     }
 
-    // Создание файла для игрока, если его нет
+    // РЎРѕР·РґР°РЅРёРµ РЅРѕРІРѕРіРѕ С„Р°Р№Р»Р° РёРіСЂРѕРєР°, РµСЃР»Рё РµРіРѕ РЅРµС‚
     private void createPlayerFile(File playerFile) {
         try {
             if (playerFile.createNewFile()) {
@@ -133,7 +133,7 @@ public class QuestStateManager {
         }
     }
 
-    // Инициализация конфигурации игрока
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РєРѕРЅС„РёРіСѓСЂР°С†РёРё РґР»СЏ РЅРѕРІРѕРіРѕ РёРіСЂРѕРєР°
     private void initializePlayerConfig(FileConfiguration config, File playerFile) {
         config.set("quests", new HashMap<String, String>());
         savePlayerConfig(config, playerFile);

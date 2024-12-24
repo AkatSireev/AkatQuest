@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.akat.quest.listeners.NPCClickListener;
 import net.akat.quest.listeners.QuestClickListener;
 import net.akat.quest.listeners.QuestEventListener;
+import net.akat.quest.managers.ConfigManager;
 import net.akat.quest.managers.QuestManager;
 import net.akat.quest.managers.QuestStateManager;
 import net.akat.quest.models.Quest;
@@ -17,15 +18,16 @@ import net.milkbowl.vault.economy.Economy;
 
 public class Main extends JavaPlugin {
 
-    private QuestManager questManager;
+    private QuestManager questManager; 
     private QuestStateManager questStateManager;
     private Economy economy;
     private List<Quest> allQuests;
     private DependencyChecker dependencyChecker;
+    private ConfigManager configManager;
 
     @Override
     public void onEnable() {
-        loadConfiguration();
+    	initializeConfigManager();
 
         if (!initializeEconomy()) {
             return;
@@ -38,30 +40,28 @@ public class Main extends JavaPlugin {
         registerEventListeners();
     }
 
-    private void loadConfiguration() {
-        saveDefaultConfig();
-        getLogger().info("Конфигурация загружена.");
+    private void initializeConfigManager() {
+        configManager = new ConfigManager(this);
+        configManager.loadConfig();
     }
 
     private boolean initializeEconomy() {
         if (!setupEconomy()) {
-            getLogger().warning("Vault не найден! Плагин будет отключён.");
+            getLogger().warning("Vault РЅРµ РЅР°Р№РґРµРЅ! РџР»Р°РіРёРЅ Р±СѓРґРµС‚ РѕС‚РєР»СЋС‡С‘РЅ.");
             getServer().getPluginManager().disablePlugin(this);
             return false;
         }
-        getLogger().info("Vault успешно настроен.");
+        getLogger().info("Vault СѓСЃРїРµС€РЅРѕ РЅР°СЃС‚СЂРѕРµРЅ.");
         return true;
     }
 
     private void initializeDependencies() {
-        boolean isMythicMobsEnabled = getConfig().getBoolean("mythicmobs-enable", true);
-
-        dependencyChecker = new DependencyChecker(isMythicMobsEnabled);
+        dependencyChecker = new DependencyChecker(configManager.isMythicMobsEnabled());
 
         if (!dependencyChecker.isMythicMobsAvailable()) {
-            getLogger().warning("MythicMobs функциональность отключена, так как плагин не найден.");
+            getLogger().warning("MythicMobs С„СѓРЅРєС†РёРѕРЅР°Р»СЊРЅРѕСЃС‚СЊ РѕС‚РєР»СЋС‡РµРЅР°, С‚Р°Рє РєР°Рє РїР»Р°РіРёРЅ РЅРµ РЅР°Р№РґРµРЅ.");
         } else {
-            getLogger().info("MythicMobs функциональность включена и доступна.");
+            getLogger().info("MythicMobs С„СѓРЅРєС†РёРѕРЅР°Р»СЊРЅРѕСЃС‚СЊ РІРєР»СЋС‡РµРЅР° Рё РґРѕСЃС‚СѓРїРЅР°.");
         }
     }
 
@@ -72,7 +72,7 @@ public class Main extends JavaPlugin {
     }
 
     private void registerEventListeners() {
-        getServer().getPluginManager().registerEvents(new QuestEventListener(allQuests, questStateManager, dependencyChecker), this);
+    	getServer().getPluginManager().registerEvents(new QuestEventListener(allQuests, questStateManager, dependencyChecker, configManager.getMythicMobCreditTimes(), configManager.getDefaultCreditTime()), this);
         getServer().getPluginManager().registerEvents(new NPCClickListener(allQuests, questStateManager), this);
         getServer().getPluginManager().registerEvents(new QuestClickListener(questStateManager, questManager), this);
     }
@@ -100,5 +100,9 @@ public class Main extends JavaPlugin {
 
     public DependencyChecker getDependencyChecker() {
         return dependencyChecker;
+    }
+    
+    public ConfigManager getConfigManager() {
+        return configManager;
     }
 }

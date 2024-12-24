@@ -18,7 +18,7 @@ public class DependencyChecker {
         if (isMythicMobsEnabled) {
             isMythicMobsAvailable = checkPlugin("MythicMobs");
             if (!isMythicMobsAvailable) {
-                Bukkit.getLogger().severe("MythicMobs включён в конфиге, но плагин не найден на сервере. Эта функциональность будет отключена.");
+                Bukkit.getLogger().severe("MythicMobs РЅРµ РЅР°Р№РґРµРЅ РІ СЃРёСЃС‚РµРјРµ, РѕРґРЅР°РєРѕ РѕРЅ Р±С‹Р» Р°РєС‚РёРІРёСЂРѕРІР°РЅ РІ РЅР°СЃС‚СЂРѕР№РєР°С…. РџРѕР¶Р°Р»СѓР№СЃС‚Р°, СѓСЃС‚Р°РЅРѕРІРёС‚Рµ РµРіРѕ.");
             }
         }
     }

@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import net.akat.quest.models.state.QuestState;
 import net.akat.quest.rewards.RewardHandler;
-import net.akat.quest.rewards.interfaces.QuestCondition;
+import net.akat.quest.conditions.interfaces.QuestCondition;
 import net.akat.quest.rewards.interfaces.Reward;
 import net.md_5.bungee.api.ChatColor;
 

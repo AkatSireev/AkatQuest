@@ -8,19 +8,19 @@ import org.bukkit.entity.Player;
 import net.akat.quest.rewards.interfaces.Reward;
 
 public class RewardHandler {
-    
+
     public static void giveRewardsToPlayer(Player player, List<Reward> rewards, String questName) {
         if (rewards == null || rewards.isEmpty()) {
-            player.sendMessage("§eЭтот квест не имеет наград.");
+            player.sendMessage("В§eРќР°РіСЂР°РґС‹ РЅРµ Р±С‹Р»Рё РІС‹РґР°РЅС‹.");
             return;
         }
-        
+
         List<String> rewardMessages = collectRewardMessages(player, rewards);
-        
+
         if (!rewardMessages.isEmpty()) {
             sendRewardMessagesToPlayer(player, rewardMessages, questName);
         } else {
-            player.sendMessage("§eВы получили награду без описания.");
+            player.sendMessage("В§eРќРµ Р±С‹Р»Рѕ СЃРѕРѕР±С‰РµРЅРёР№ Рѕ РЅР°РіСЂР°РґРµ.");
         }
     }
 
@@ -33,7 +33,7 @@ public class RewardHandler {
         for (Reward reward : rewards) {
             giveReward(player, reward);
             String message = reward.getRewardMessage();
-            
+
             if (message != null && !message.isEmpty()) {
                 rewardMessages.add(message);
             }
@@ -42,7 +42,7 @@ public class RewardHandler {
     }
 
     private static void sendRewardMessagesToPlayer(Player player, List<String> rewardMessages, String questName) {
-        player.sendMessage("§eВы получили следующие награды:");
+        player.sendMessage("В§eРќР°РіСЂР°РґС‹ Р·Р° РІС‹РїРѕР»РЅРµРЅРёРµ Р·Р°РґР°РЅРёСЏ:");
         for (String message : rewardMessages) {
             player.sendMessage(message);
         }

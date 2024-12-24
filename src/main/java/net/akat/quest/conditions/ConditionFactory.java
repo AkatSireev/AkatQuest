@@ -10,7 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 
-import net.akat.quest.rewards.interfaces.QuestCondition;
+import net.akat.quest.conditions.interfaces.QuestCondition;
 import net.akat.quest.utils.DependencyChecker;
 
 public class ConditionFactory {
@@ -25,20 +25,20 @@ public class ConditionFactory {
         List<QuestCondition> conditions = new ArrayList<>();
 
         if (section == null) {
-            Bukkit.getLogger().warning("Конфигурация для условий не найдена!");
+            Bukkit.getLogger().warning("РќРµРІРѕР·РјРѕР¶РЅРѕ Р·Р°РіСЂСѓР·РёС‚СЊ СѓСЃР»РѕРІРёСЏ РёР· РєРѕРЅС„РёРіСѓСЂР°С†РёРё!");
             return conditions;
         }
 
         for (String key : section.getKeys(false)) {
             ConfigurationSection conditionSection = section.getConfigurationSection(key);
             if (conditionSection == null) {
-                Bukkit.getLogger().warning("Секция условия " + key + " некорректна.");
+                Bukkit.getLogger().warning("Р Р°Р·РґРµР» СѓСЃР»РѕРІРёСЏ " + key + " РЅРµ РЅР°Р№РґРµРЅ.");
                 continue;
             }
 
             String type = conditionSection.getString("type");
             if (type == null) {
-                Bukkit.getLogger().warning("У условия " + key + " не указан тип.");
+                Bukkit.getLogger().warning("Р’ СЂР°Р·РґРµР»Рµ " + key + " РЅРµ СѓРєР°Р·Р°РЅ С‚РёРї.");
                 continue;
             }
 
@@ -60,7 +60,7 @@ public class ConditionFactory {
                 if (dependencyChecker.isMythicMobsAvailable()) {
                     return createKillMythicMobCondition(conditionSection);
                 } else {
-                    Bukkit.getLogger().warning("MythicMobs недоступен, условие 'kill_mythic_mob' будет пропущено.");
+                    Bukkit.getLogger().warning("MythicMobs РЅРµ РЅР°Р№РґРµРЅС‹, СѓСЃР»РѕРІРёРµ 'kill_mythic_mob' РЅРµ Р±СѓРґРµС‚ РІС‹РїРѕР»РЅРµРЅРѕ.");
                     return null;
                 }
 
@@ -68,7 +68,7 @@ public class ConditionFactory {
                 return createBringItemWithNBTCondition(conditionSection);
                 
             default:
-                Bukkit.getLogger().warning("Неизвестный тип условия: " + type);
+                Bukkit.getLogger().warning("РќРµРёР·РІРµСЃС‚РЅС‹Р№ С‚РёРї СѓСЃР»РѕРІРёСЏ: " + type);
                 return null;
         }
     }
@@ -82,7 +82,7 @@ public class ConditionFactory {
     private QuestCondition createKillMythicMobCondition(ConfigurationSection section) {
         String mobName = section.getString("mobName");
         int amount = section.getInt("amount", 1);
-        return new KillMythicMobCondition(mobName, amount);
+        return new KillMythicMobCondition(mobName,    amount);
     }
 
     private QuestCondition createBringItemWithNBTCondition(ConfigurationSection conditionSection) {
@@ -99,7 +99,7 @@ public class ConditionFactory {
         if (material != null) {
             return new ItemNBTCondition(material, amount, take, tags);
         } else {
-            Bukkit.getLogger().warning("Некорректные данные для условия 'bring_item_with_nbt'.");
+            Bukkit.getLogger().warning("РќРµ СѓРґР°Р»РѕСЃСЊ РЅР°Р№С‚Рё РјР°С‚РµСЂРёР°Р» РґР»СЏ СѓСЃР»РѕРІРёСЏ 'bring_item_with_nbt'.");
             return null;
         }
     }
